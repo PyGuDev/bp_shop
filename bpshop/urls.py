@@ -18,12 +18,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth.views import LoginView, LogoutView
+from user.views import SingUpView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('logout/', LogoutView.as_view(next_page='main'), name='logout'),
     path('singin/', LoginView.as_view(), name='singin'),
+    path('singup/', SingUpView.as_view(), name='singup'),
     path('', include('shop.urls')),
 ]
 
