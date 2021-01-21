@@ -1,0 +1,197 @@
+<div class="modal fade" id="singin_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Войти</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="singin/" method="post" id="form_singin">
+      <div class="modal-body">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="id_username" class="col-form-label">Email:</label>
+            <input type="email" class="form-control" id="id_username" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="id_password" class="col-form-label">Пароль:</label>
+            <input type="password" class="form-control" id="id_password" name="password" required>
+          </div>
+          <input type="hidden" name="next" value="/">
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">Войти</button>
+        <button type="button" class="btn btn-warning text-white" data-dismiss="modal"
+                data-toggle="modal" data-target="#singup_modal" data-whatever="@mdo">Регистрация</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="singup_modal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLongTitle" aria-hidden="true" style="overflow-y: auto;">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="singupModalLabel">Регистрация</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="singup/" method="post" id="form_singup">
+      <div class="modal-body">
+        {% csrf_token %}
+          <div class="form-group">
+            <label for="id_first_name" class="col-form-label">Имя:</label>
+            <input type="text" class="form-control" id="id_first_name" name="first_name" required>
+          </div>
+          <div class="form-group">
+            <label for="id_last_name" class="col-form-label">Фамилия:</label>
+            <input type="text" class="form-control" id="id_last_name" name="last_name" required>
+          </div>
+          <div class="form-group">
+            <label for="id_patronymic" class="col-form-label">Отчество:</label>
+            <input type="text" class="form-control" id="id_patronymic" name="patronymic" required>
+          </div>
+          <div class="form-group">
+            <label for="id_email" class="col-form-label">Email:</label>
+            <input type="email" class="form-control" id="id_email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="id_phone" class="col-form-label">Номер телефона:</label>
+            <input type="text" class="form-control" id="id_phone" name="phone_number" required>
+          </div>
+          <div class="form-group">
+            <label for="id_date_of_birth" class="col-form-label">День рождения:</label>
+            <input type="datetime-local" class="form-control" id="id_date_of_birth" name="date_of_birth" required>
+          </div>
+          <div class="form-group">
+            <label for="id_password2" class="col-form-label"
+                   autocomplete="off" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">Пароль:</label>
+            <input type="password" class="form-control" id="id_password2" name="password" required>
+          </div>
+          <div class="form-group">
+            <label for="id_password_confirm" class="col-form-label"
+                   autocomplete="off" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">Повторите пароль:</label>
+            <input type="password" class="form-control" id="id_password_confirm" name="password_confirm" required>
+          </div>
+         <div class="form-group" id="message">
+           <h5>Пароль состоит из:</h5>
+           <p id="letter" class="invalid"><b>Строчные</b> символов</p>
+           <p id="capital" class="invalid"><b>Прописные (большие)</b> символы</p>
+           <p id="number" class="invalid"><b>Цифры</b></p>
+           <p id="length" class="invalid">Минимум <b>8 символов</b></p>
+         </div>
+          <input type="hidden" name="next" value="/">
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success text-white" onclick="valid_password()">Регистрация</button>
+        <button type="button" class="btn btn-warning text-white" data-dismiss="modal"
+                data-toggle="modal" data-target="#singin_modal" data-whatever="@mdo">Войти</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+      </div>
+        </form>
+    </div>
+  </div>
+</div>
+<style>
+/* The message box is shown when the user clicks on the password field */
+#message {
+  display:none;
+  color: #000;
+  position: relative;
+  padding: 20px;
+  margin-top: 10px;
+}
+
+#message p {
+  padding: 5px 25px;
+  font-size: 12px;
+}
+
+/* Add a green text color and a checkmark when the requirements are right */
+.valid {
+  color: green;
+}
+
+.valid:before {
+  position: relative;
+  left: -35px;
+}
+
+/* Add a red text color and an "x" icon when the requirements are wrong */
+.invalid {
+  color: red;
+}
+
+.invalid:before {
+  position: relative;
+  left: -35px;
+}
+
+
+</style>
+<script>
+var myInput = document.getElementById("id_password2");
+var letter = document.getElementById("letter");
+var capital = document.getElementById("capital");
+var number = document.getElementById("number");
+var length = document.getElementById("length");
+
+// When the user clicks on the password field, show the message box
+myInput.onfocus = function() {
+  document.getElementById("message").style.display = "block";
+}
+
+// When the user clicks outside of the password field, hide the message box
+myInput.onblur = function() {
+  document.getElementById("message").style.display = "none";
+}
+
+// When the user starts to type something inside the password field
+myInput.onkeyup = function() {
+  // Validate lowercase letters
+  var lowerCaseLetters = /[a-z]/g;
+  if(myInput.value.match(lowerCaseLetters)) {
+    letter.classList.remove("invalid");
+    letter.classList.add("valid");
+  } else {
+    letter.classList.remove("valid");
+    letter.classList.add("invalid");
+  }
+
+  // Validate capital letters
+  var upperCaseLetters = /[A-Z]/g;
+  if(myInput.value.match(upperCaseLetters)) {
+    capital.classList.remove("invalid");
+    capital.classList.add("valid");
+  } else {
+    capital.classList.remove("valid");
+    capital.classList.add("invalid");
+  }
+
+  // Validate numbers
+  var numbers = /[0-9]/g;
+  if(myInput.value.match(numbers)) {
+    number.classList.remove("invalid");
+    number.classList.add("valid");
+  } else {
+    number.classList.remove("valid");
+    number.classList.add("invalid");
+  }
+
+  // Validate length
+  if(myInput.value.length >= 8) {
+    length.classList.remove("invalid");
+    length.classList.add("valid");
+  } else {
+    length.classList.remove("valid");
+    length.classList.add("invalid");
+  }
+}
+
+
+</script>
