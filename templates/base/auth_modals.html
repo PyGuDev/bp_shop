@@ -69,14 +69,16 @@
             <input type="datetime-local" class="form-control" id="id_date_of_birth" name="date_of_birth" required>
           </div>
           <div class="form-group">
-            <label for="id_password2" class="col-form-label"
-                   autocomplete="off" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">Пароль:</label>
-            <input type="password" class="form-control" id="id_password2" name="password" required>
+            <label for="id_password2" class="col-form-label">Пароль:</label>
+            <input type="password" class="form-control" id="id_password2" name="password"
+                   autocomplete="off" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
           </div>
           <div class="form-group">
-            <label for="id_password_confirm" class="col-form-label"
-                   autocomplete="off" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">Повторите пароль:</label>
-            <input type="password" class="form-control" id="id_password_confirm" name="password_confirm" required>
+            <label for="id_password_confirm" class="col-form-label">Повторите пароль:</label>
+            <input type="password" class="form-control" id="id_password_confirm"
+                   autocomplete="off" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="password_confirm" required>
+            <div class="registrationFormAlert" id="divCheckPasswordMatch">
+            </div>
           </div>
          <div class="form-group" id="message">
            <h5>Пароль состоит из:</h5>
@@ -88,7 +90,7 @@
           <input type="hidden" name="next" value="/">
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-success text-white" onclick="valid_password()">Регистрация</button>
+        <button type="submit" class="btn btn-success text-white" id="btn_submit">Регистрация</button>
         <button type="button" class="btn btn-warning text-white" data-dismiss="modal"
                 data-toggle="modal" data-target="#singin_modal" data-whatever="@mdo">Войти</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
@@ -132,6 +134,11 @@
   left: -35px;
 }
 
+.registrationFormAlert{
+    color: red;
+    padding-top: 12px;
+    font-size: 13px;
+}
 
 </style>
 <script>
@@ -192,6 +199,21 @@ myInput.onkeyup = function() {
     length.classList.add("invalid");
   }
 }
+function checkPasswordMatch() {
+    var password = $("#id_password2").val();
+    var confirmPassword = $("#id_password_confirm").val();
 
+    if (password != confirmPassword){
+        $("#divCheckPasswordMatch").html("Пароли не совпадают!");
+        $("#btn_submit").attr('type', 'button');
+    }
+    else{
+        $("#divCheckPasswordMatch").html("");
+        $("#btn_submit").attr('type', 'submit');
+    }
+}
+$(document).ready(function () {
+   $("#id_password2, #id_password_confirm").keyup(checkPasswordMatch);
+});
 
 </script>
