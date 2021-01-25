@@ -10,9 +10,6 @@
     .active_image{
         display: block!important;
     }
-    .item-product{
-        height: 235px;
-    }
     .category {
 	width              : 100px;
 	height             : 26px;
@@ -59,23 +56,21 @@
                 {% if object_list%}
                 {% for product in object_list %}
                 <div class="row item-product mt-5">
-                    <div class="col-xl-4 col-md-5 col-sm-12 h-100">
+                    <div class="col-xl-4 col-md-5 col-sm-12">
                         <div class="row d-flex justify-content-center align-items-center">
-                            <div class="col-2 slider-btn" onclick="back_image()"><button><img src="{% static 'images/icons/back.svg'%}" ></button></div>
+                            <div class="col-2 slider-btn" onclick="back_image('#image_{{product.images.first.id}}')"><button><img src="{% static 'images/icons/back.svg'%}" ></button></div>
                             <div class="col-8">{% for image in product.images.all %}
                                 {% if forloop.first %}
-                                <img class="image_product active_image" id="image_{{forloop.counter0}}" src="{{ image.url.url }}">
+                                <img class="image_product active_image" id="image_{{image.id}}" src="{{ image.url.url }}">
                                 {% else %}
-                                <img class="image_product" id="image_{{forloop.counter0}}" src="{{ image.url.url }}">
+                                <img class="image_product" id="image_{{image.id}}" src="{{ image.url.url }}">
                                 {% endif %}
                                 {% endfor %}
                             </div>
-                            <div class="col-2 slider-btn" onclick="next_image()"><button><img src="{% static 'images/icons/next.svg'%}" ></button></div></div>
-
-
-
+                            <div class="col-2 slider-btn" onclick="next_image('#image_{{product.images.first.id}}')"><button><img src="{% static 'images/icons/next.svg'%}" ></button></div>
+                        </div>
                     </div>
-                    <div class="col-md-7 col-sm-12 h-100">
+                    <div class="col-xl-8 col-md-7 col-sm-12">
                         <h4>{{ product.title }}</h4>
                         <p>{{ product.description|safe|truncatechars:200}}</p>
                         <spa>Цена: {{ product.price}} руб</spa>
@@ -88,8 +83,8 @@
     </div>
 </div>
 <script>
-    function next_image(){
-         var image = $('.active_image');
+    function next_image(id_image){
+         var image = $(id_image);
          var next_image = image.next();
          console.log(next_image)
          if(next_image.length > 0){
@@ -97,11 +92,11 @@
              next_image.addClass('active_image');
          }
     }
-    function back_image(){
-         var image = $('.active_image');
+    function back_image(id_image){
+         var image = $(id_image);
          var back_image = image.prev();
-         console.log(next_image)
-         if(back_image.length > 0){
+         console.log(back_image)
+         if(back_image.length >= 0){
              image.removeClass('active_image');
              back_image.addClass('active_image');
          }
