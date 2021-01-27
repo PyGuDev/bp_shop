@@ -22,7 +22,11 @@
 	/* for IE */
 	-ms-appearance     : none;
 }
-.slider {
+    .back-page a{
+        color: #666666;
+        font-size: 16px;
+    }
+    .slider {
       position: relative;
       overflow: hidden;
     }
@@ -90,6 +94,10 @@
       font-size: 100px;
       text-align: center;
     }
+    .description{
+        line-height: 27px;
+        font-size: 1rem;
+    }
   </style>
 </style>
 
@@ -98,8 +106,14 @@
         <div class="col-md-12 col-sm-12">
             <div class="list-product mt-5">
                 {% if object%}
-                <div class="row item-product mt-5">
-                    <div class="col-xl-5 col-md-6 col-sm-12">
+                <div class="row back-page ">
+                    <div class="col-2"?>
+                    <img src="{% static 'images/icons/back_page.svg'%}">
+                    <a href="/">Назад</a>
+                    </div>
+                </div>
+                <div class="row item-product mt-5 d-flex justify-content-center">
+                    <div class="col-xl-4 col-md-4 col-sm-12">
                         <div class="row d-flex justify-content-center align-items-center">
                             <div class="slider">
                                 <div class="slider__wrapper">
@@ -114,13 +128,34 @@
                               </div>
                         </div>
                     </div>
-                    <div class="col-xl-7 col-md-6 col-sm-12 pl-5">
+                    <div class="col-xl-4 col-md-4 col-sm-12 pl-5">
                         <h4>{{ object.title }}</h4>
-                        <p>{{ object.description|safe}}</p>
-                        <spa>Цена: {{ object.price}} руб</spa>
+                        <p class="description">
+                        {% if object.phone_number %}
+                        <span>Номер телефона: {{object.phone_number}}</span><br>
+                        {% endif %}
+                        {% if object.vk_profile %}
+                        <span>Вконтакте: {{object.vk_profile}}</span><br>
+                        {% endif %}
+                        {% if object.whats_app_profile %}
+                        <span>Номер телефона WhatsApp: {{object.whats_app_profile}}</span><br>
+                        {% endif %}
+                        {% if object.telegram_profile %}
+                        <span>Номер телефона Telegram: {{object.telegram_profile}}</span><br>
+                        {% endif %}
+                        <span>Цена: {{ object.price}} руб</span>
+                        </p>
                     </div>
                 </div>
                 {% endif %}
+                <div class="row mt-4 d-flex justify-content-center">
+                    <div class="col-xl-8 mt-5 col-md-8 col-sm-12">
+                    <h4 class="text-center" >Описание</h4>
+                    <p class="description">
+                        {{object.description|safe}}
+                    </p>
+                    </div>
+            </div>
             </div>
         </div>
     </div>
