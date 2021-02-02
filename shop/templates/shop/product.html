@@ -115,6 +115,7 @@
                 <div class="row item-product mt-5 d-flex justify-content-center">
                     <div class="col-xl-4 col-md-4 col-sm-12">
                         <div class="row d-flex justify-content-center align-items-center">
+                            {% if object.images.count > 1 %}
                             <div class="slider">
                                 <div class="slider__wrapper">
                                     {% for image in object.images.all %}
@@ -126,6 +127,9 @@
                                 <a class="slider__control slider__control_left" href="#" role="button"></a>
                                 <a class="slider__control slider__control_right slider__control_show" href="#" role="button"></a>
                               </div>
+                              {% else %}
+                              <img class="image_product" src="{{ object.images.last.url.url }}">
+                              {% endif %}
                         </div>
                     </div>
                     <div class="col-xl-4 col-md-4 col-sm-12 pl-5">

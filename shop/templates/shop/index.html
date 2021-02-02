@@ -25,16 +25,23 @@
 
   </style>
 </style>
-
+{{ request.path}}
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-12 col-sm-12">
             <div class="nav">
                 <div class="row">
                     <div class="col-md-6">
-                        <select class="category">
+                        <form action='.' method='get' id='sort'>
+                        <select class="category" id="category" name="s">
                             <option>Категория</option>
+                            {% if category %}
+                            {% for item in category %}
+                            <option value='{{item.id}}'>{{item}}</option>
+                            {% endfor %}
+                            {% endif %}
                         </select>
+                        </form>
                     </div>
                     <div class="col-md-6">
                         <select class="category">
@@ -64,7 +71,11 @@
         </div>
     </div>
 </div>
+{% endblock %}
+{% block script %}
 <script>
-
+$('#category').on('change', function(){
+$('#sort').submit();
+});
 </script>
 {% endblock %}
